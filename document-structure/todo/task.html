@@ -18,26 +18,34 @@
             Домашнее задание к занятию 2.3 «Изменение структуры HTML-документа». Простой список дел.
         </h1>
     </header>
-    <main class="content">
-        <div class="card">
-            <div class="tasks" id="tasks">
-                <form class="tasks__control" id="tasks__form">
-                    <input type="text" class="tasks__input" id="task__input" placeholder="Введите название новой задачи">
-                    <button class="tasks__add" id="tasks__add">Добавить</button>
-                </form>
-                <div class="tasks__list" id="tasks__list">
-                    <!-- стандартный шаблон задачи -->
-                    <!-- <div class="task">
-                      <div class="task__title">
-                        Сходить в магазин
-                      </div>
-                      <a href="#" class="task__remove">&times;</a>
-                    </div> -->
+        <div class="box">
+            <div class="flex-wrapper">
+        <div class="todo-heading">
+            <h1>ToDo приложение</h1>
+            <span>Список задач на сегодня</span>
+        </div>
+           <div class="todos-wrapper">
+        </div>
+        <div class="todo-img">
+            <div class="add-todo-wrapper">
+                <span>Добавить новую задачу</span>
+                <div class="ib-wrapper">
+                    <div class="input-wrapper">
+                        <input id="discription-task" type="text" placeholder="Текст задачи">
+                    </div>
+                    <div class="button-wrapper">
+                        <button id="add-todo-btn">Добавить</button>
+                    </div>
                 </div>
             </div>
+
+            </div>
+            <div class="clearBox">
+                <button class="clear">Удалить все задачи</button>
+            </div>
         </div>
-    </main>
-    
+    </div>
+    </div>
     <script src="task.js"></script>
 </body>
 </html>
