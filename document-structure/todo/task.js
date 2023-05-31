@@ -1,10 +1,8 @@
 const discriptionTask = document.getElementById('discription-task');
 const add_todo = document.getElementById('add-todo-btn');
 const todo = document.querySelector('.todos-wrapper');
-const clear = document.querySelector('.clear');
 
-
-var tasks = [];
+let tasks = [];
 let del =[]; 
 let todoItem = [];
 
@@ -58,19 +56,14 @@ const completeTask = (index) => {
 }
 
 add_todo.addEventListener('click', () => {
-    tasks.push(new Task(discriptionTask.value));
+    if(discriptionTask.value !== ''){
+        tasks.push(new Task(discriptionTask.value));
+    }
     updateLocal();
     fillHtmlList();
     discriptionTask.value = ''
 })
-clear.addEventListener('click', () => {
-    todo.classList.add('deletion');
-    setTimeout(() =>{
-    localStorage.clear();
-    todo.innerHTML = '';
-    tasks.splice(0, tasks.length);
-}, 500)
-})
+
 
 const deleteTask = (index) =>{
     todoItem[index].classList.add('deletion');

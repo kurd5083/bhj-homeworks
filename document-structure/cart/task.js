@@ -1,38 +1,90 @@
-let product__quantity_value = document.querySelectorAll('.product__quantity-value');
-let product__quantity_control_inc = document.querySelectorAll('.product__quantity-control_inc');
-let product__quantity_control_dec = document.querySelectorAll('.product__quantity-control_dec');
-
-for (let i = 0; i < product__quantity_value.length; i++) {
-    product__quantity_control_inc[i].addEventListener('click', function () {
-        product__quantity_value[i].innerHTML++;
-    })
-    product__quantity_control_dec[i].addEventListener('click', function () {
-        product__quantity_value[i].innerHTML--;
-    })
-}
-let product__add = document.querySelectorAll('.product__add');
-let cart__products = document.querySelector('.cart__products');
-let product__image = document.querySelectorAll('.product__image');
-let product = document.querySelectorAll('.product');
-
-for (let i = 0; i < product__add.length; i++) {
-    product__add[i].addEventListener('click', function () {
-        let data_id = product[i].getAttribute('data-id');
-        if (cart__products.innerHTML !== '') {
-            let cart__product = document.querySelectorAll('.cart__product');
-            for (let j = 0; j < cart__product.length; j++) {
-                if (cart__product[j].getAttribute('data-id') == data_id) {
-                    let cart__product_count = document.querySelectorAll('.cart__product-count');
-                    cart__product_count[j].innerHTML = Number(cart__product_count[j].innerHTML) + Number(product__quantity_value[i].innerHTML);
-                    return
-                }
-            }
+class Cart {
+    constructor() {
+        this.products = document.querySelectorAll('.products')
+        this.product = []
+        this.cart = document.querySelector('.cart__products')
+        this.carts = document.querySelectorAll('.cart__product')
+    }
+    getProduct(i) {
+        i--
+        for (let product of this.products) {
+            return product.children[i]
         }
-        cart__products.innerHTML += `
-        <div class="cart__product" data-id="${data_id}">
-            <img class="cart__product-image" src="${product__image[i].src}">
-            <div class="cart__product-count">${product__quantity_value[i].innerHTML}</div>
-        </div>`
+    }
+    getCartProduct(i) {
+        this.buttonAdd(i).addEventListener('click', e => {
+            let card = Array.from(this.cart.children)
+            const productInCard = card.find((item, index, array) => {
+                return array[index].attributes["data-id"].value == i
+            });
+            if (productInCard) {
 
-    })
+                let total = Number(productInCard.children[1].textContent) + Number(this.getQuantity(i))
+                productInCard.children[1].textContent = total
+            } else {
+                let elem = document.createElement('div')
+                elem.classList.add('cart__product')
+                elem.setAttribute('data-id', i)
+                elem.style.display = 'flex'
+                elem.innerHTML = `<img class="cart__product-image" src="p.png">
+                      <div class="cart__product-count">${this.getQuantity(i)}</div>`
+                this.cart.appendChild(elem)
+                elem.children[0].setAttribute('src', this.getProduct(i).children[1].src)
+            }
+        })
+    }
+    getQuantity(i) {
+        return this.getProduct(i).children[2].children[0].children[1].children[1]
+            .innerText
+    }
+    setQuantity(i, val) {
+        this.getProduct(
+            i
+        ).children[2].children[0].children[1].children[1].innerText = val
+    }
+    plusQuantity(i) {
+        if (Number(this.getQuantity(i)) + 1 < 100)
+            this.getProduct(
+                i
+            ).children[2].children[0].children[1].children[1].innerText =
+                Number(this.getQuantity(i)) + 1
+    }
+    minusQuantity(i) {
+        if (Number(this.getQuantity(i)) - 1 > 0)
+            this.getProduct(
+                i
+            ).children[2].children[0].children[1].children[1].innerText =
+                Number(this.getQuantity(i)) - 1
+    }
+    productInc(i) {
+        return this.getProduct(i).children[2].children[0].children[1].children[2]
+    }
+    productDec(i) {
+        return this.getProduct(i).children[2].children[0].children[1].children[0]
+    }
+    buttonAdd(i) {
+        return this.getProduct(i).children[2].children[0].children[2]
+    }
+    test(i) {
+        return this.getProduct(i).children[1].src
+    }
+    addProduct(i) {
+        this.productInc(i).addEventListener('click', e => {
+            this.plusQuantity(i)
+        })
+        this.productDec(i).addEventListener('click', e => {
+            this.minusQuantity(i)
+        })
+    }
 }
+
+let product = new Cart()
+
+product.addProduct(1)
+product.addProduct(2)
+product.addProduct(3)
+product.addProduct(4)
+product.getCartProduct(1)
+product.getCartProduct(2)
+product.getCartProduct(3)
+product.getCartProduct(4)
