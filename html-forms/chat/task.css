@@ -27,6 +27,7 @@
 .chat-widget__messages-container {
   flex-grow: 1;
   overflow-y: auto;
+
 }
 
 .chat-widget__side {
